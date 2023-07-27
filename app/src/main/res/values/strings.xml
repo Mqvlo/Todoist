@@ -28,4 +28,5 @@
     <string name="about_text">Todoist Clone App</string>
     <string name="add_todos">Add a Todo…</string>
     <string name="floating_action">Add</string>
+    <string name="no_info">Please fill the info</string>
 </resources>
