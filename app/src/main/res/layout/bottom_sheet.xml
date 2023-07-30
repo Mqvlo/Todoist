@@ -99,8 +99,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="244dp"
-        android:layout_height="33dp"
+        android:layout_width="239dp"
+        android:layout_height="26dp"
         android:layout_marginTop="48dp"
         android:gravity="center_horizontal"
         android:text="@string/due_date_text"
@@ -113,20 +113,19 @@
 
     <CalendarView
         android:id="@+id/calendar_view"
-        android:layout_width="318dp"
-        android:layout_height="296dp"
+        android:layout_width="319dp"
+        android:layout_height="349dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/next_week_chip"
-        app:layout_constraintVertical_bias="0.16000003" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <RadioGroup
         android:id="@+id/radioGroup_priority"
         android:layout_width="0dp"
         android:layout_height="51dp"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         android:padding="@dimen/dimen_10"
         android:visibility="gone"

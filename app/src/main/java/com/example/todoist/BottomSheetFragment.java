@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.todoist.model.Priority;
@@ -18,6 +19,7 @@ import com.example.todoist.model.SharedViewModel;
 import com.example.todoist.model.Task;
 import com.example.todoist.model.TaskViewModel;
 import com.example.todoist.util.Utils;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
 
@@ -81,7 +83,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             isEdit = sharedViewModel.getIsEdit();
             if (isEdit) {
                 enterTodo.setText(task.getTask());
-                switch (task.priority) {
+                switch (task.getPriority()) {
                     case HIGH:
                         priorityRadioGroup.check(R.id.radioButton_high);
                         priority = Priority.HIGH;
@@ -95,9 +97,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                         priority = Priority.LOW;
                     }
                 }
-                calendarView.setDate(task.dueDate.getTime());
-                dueDate = task.dueDate;
-                isDone = task.isDone;
+                calendarView.setDate(task.getDueDate().getTime());
+                dueDate = task.getDueDate();
+                isDone = task.getIsDone();
             }else
                 clearBottomSheetFragment();
         }
@@ -120,6 +122,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         calendarButton.setOnClickListener(view1 -> {
             calendarGroup.setVisibility(calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
             Utils.hideSoftKeyboard(view1);
+            BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
+            bottomSheetBehavior.setState(bottomSheetBehavior.STATE_EXPANDED);
         });
 
         calendarView.setOnDateChangeListener((calendarView, year, month, dayOfMonth) -> {
@@ -162,7 +166,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     updateTask.setDateCreated(Calendar.getInstance().getTime());
                     updateTask.setPriority(priority);
                     updateTask.setDueDate(dueDate);
-                    updateTask.setDone(isDone);
+                    updateTask.setIsDone(isDone);
                     TaskViewModel.update(updateTask);
                     sharedViewModel.setIsEdit(false);
                 }else
@@ -171,7 +175,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     this.dismiss();
                 }
             }else {
-                //Snackbar.make(saveButton, R.string.empty_field, Snackbar.LENGTH_LONG).show();
                 Toast.makeText(getActivity(), R.string.no_info, Toast.LENGTH_LONG).show();
             }
         });

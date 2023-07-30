@@ -10,20 +10,20 @@ import java.util.Date;
 public class Task {
     @ColumnInfo(name = "task_id")
     @PrimaryKey(autoGenerate = true)
-    public long taskId;
+    private long taskId;
 
-    public String task;
+    private String task;
 
-    public Priority priority;
+    private Priority priority;
 
     @ColumnInfo(name = "due_date")
-    public Date dueDate;
+    private Date dueDate;
 
     @ColumnInfo(name = "created_at")
-    public Date dateCreated;
+    private Date dateCreated;
 
     @ColumnInfo(name = "is_Done")
-    public boolean isDone;
+    private boolean isDone;
 
     public Task(String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone) {
         this.task = task;
@@ -73,11 +73,11 @@ public class Task {
         this.dateCreated = dateCreated;
     }
 
-    public boolean isDone() {
+    public boolean getIsDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setIsDone(boolean done) {
         isDone = done;
     }
 

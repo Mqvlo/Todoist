@@ -10,16 +10,20 @@ import com.example.todoist.model.TaskViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 MainActivity.this.getApplication())
                 .create(TaskViewModel.class);
@@ -56,6 +62,26 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
             recyclerViewAdapter = new RecyclerViewAdapter(tasks, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                if (direction == ItemTouchHelper.LEFT) {
+                    TaskViewModel.delete(recyclerViewAdapter.getTaskAt(viewHolder.getAdapterPosition()));
+                }
+                else {
+                    Task task = recyclerViewAdapter.getTaskAt(viewHolder.getAdapterPosition());
+                    task.setIsDone(true);
+                    Toast.makeText(MainActivity.this, "Hecho", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).attachToRecyclerView(recyclerView);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> showBottomSheetDialog());
