@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +52,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.todayChip.setText(formatted);
         holder.todayChip.setTextColor(Utils.priorityColor(task));
         holder.todayChip.setChipIconTint(colorStateList);
-        holder.radioButton.setButtonTintList(colorStateList);
     }
 
     @Override
@@ -62,19 +60,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public AppCompatRadioButton radioButton;
         public AppCompatTextView task;
         public Chip todayChip;
 
         OnTodoClickListener onTodoClickListener;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            radioButton = itemView.findViewById(R.id.todo_radio_button);
             task = itemView.findViewById(R.id.todo_row_todo);
             todayChip = itemView.findViewById(R.id.todo_row_chip);
             this.onTodoClickListener = todoClickListener;
             itemView.setOnClickListener(this);
-            radioButton.setOnClickListener(this);
         }
 
         @Override
@@ -83,8 +78,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int id = view.getId();
             if (id == R.id.todo_row_layout){
                 onTodoClickListener.onTodoClick(currTask);
-            }else if (id == R.id.todo_radio_button){
-                onTodoClickListener.OnTodoRadioButtonClick(currTask);
             }
         }
     }

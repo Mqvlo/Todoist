@@ -1,5 +1,7 @@
 package com.example.todoist;
 
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.todoist.model.Priority;
@@ -72,6 +73,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         Chip nextWeekChip = view.findViewById(R.id.next_week_chip);
         nextWeekChip.setOnClickListener(this);
 
+        clearBottomSheetFragment();
+
         return view;
     }
 
@@ -107,7 +110,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
 
     private void clearBottomSheetFragment() {
         enterTodo.setText("");
-        priorityRadioGroup.clearCheck();
+        priorityRadioGroup.check(R.id.radioButton_low);
         priority = Priority.LOW;
         calendarView.setDate(Calendar.getInstance().getTimeInMillis());
         dueDate = Calendar.getInstance().getTime();
@@ -123,7 +126,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             calendarGroup.setVisibility(calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
             Utils.hideSoftKeyboard(view1);
             BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
-            bottomSheetBehavior.setState(bottomSheetBehavior.STATE_EXPANDED);
+            bottomSheetBehavior.setState(STATE_EXPANDED);
         });
 
         calendarView.setOnDateChangeListener((calendarView, year, month, dayOfMonth) -> {

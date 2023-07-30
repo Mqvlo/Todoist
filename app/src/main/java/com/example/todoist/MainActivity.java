@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
-    private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     BottomSheetFragment bottomSheetFragment;
@@ -50,8 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
-        taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
+        TaskViewModel taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 MainActivity.this.getApplication())
                 .create(TaskViewModel.class);
 
@@ -71,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
                 if (direction == ItemTouchHelper.LEFT) {
                     TaskViewModel.delete(recyclerViewAdapter.getTaskAt(viewHolder.getAdapterPosition()));
                 }
@@ -113,11 +109,5 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         sharedViewModel.selectItem(task);
         sharedViewModel.setIsEdit(true);
         showBottomSheetDialog();
-    }
-
-    @Override
-    public void OnTodoRadioButtonClick(Task task) {
-        TaskViewModel.delete(task);
-        recyclerViewAdapter.notifyDataSetChanged();
     }
 }
