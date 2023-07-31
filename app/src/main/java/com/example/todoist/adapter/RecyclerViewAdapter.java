@@ -1,10 +1,13 @@
 package com.example.todoist.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -15,14 +18,17 @@ import com.example.todoist.model.Task;
 import com.example.todoist.util.Utils;
 import com.google.android.material.chip.Chip;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private final List<Task> taskList;
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements Filterable {
+    private List<Task> taskList;
     private final OnTodoClickListener todoClickListener;
+    private final List<Task> filteredTaskList;
 
     public RecyclerViewAdapter(List<Task> taskList, OnTodoClickListener onTodoClickListener) {
         this.taskList = taskList;
+        this.filteredTaskList = taskList;
         this.todoClickListener = onTodoClickListener;
     }
 
@@ -57,6 +63,37 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return taskList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if (constraint == null){
+                    filterResults.values = filteredTaskList;
+                    filterResults.count = filteredTaskList.size();
+                }else{
+                    List<Task> tasks = new ArrayList<>();
+                    for (Task task :filteredTaskList) {
+                        if(task.getIsDone() != (constraint == "notDone")){
+                            tasks.add(task);
+                        }
+                    }
+                    filterResults.values = tasks;
+                    filterResults.count = tasks.size();
+                }
+                return filterResults;
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                taskList = (List<Task>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

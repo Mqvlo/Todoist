@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 
 public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
     private RecyclerView recyclerView;
@@ -57,10 +55,11 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
 
         taskViewModel.getAllTasks().observe(this, tasks -> {
             recyclerViewAdapter = new RecyclerViewAdapter(tasks, this);
+            recyclerViewAdapter.getFilter().filter("notDone");
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -71,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
                 if (direction == ItemTouchHelper.LEFT) {
                     TaskViewModel.delete(recyclerViewAdapter.getTaskAt(viewHolder.getAdapterPosition()));
                 }
-                else {
-                    Task task = recyclerViewAdapter.getTaskAt(viewHolder.getAdapterPosition());
-                    task.setIsDone(true);
-                    Toast.makeText(MainActivity.this, "Hecho", Toast.LENGTH_SHORT).show();
+                else if (direction == ItemTouchHelper.RIGHT) {
+                    Task taskUpdated = recyclerViewAdapter.getTaskAt(viewHolder.getAdapterPosition());
+                    taskUpdated.setIsDone(true);
+                    TaskViewModel.update(taskUpdated);
                 }
             }
         }).attachToRecyclerView(recyclerView);

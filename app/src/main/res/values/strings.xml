@@ -29,4 +29,5 @@
     <string name="add_todos">Add a Todo…</string>
     <string name="floating_action">Add</string>
     <string name="no_info">Please fill the info</string>
+    <string name="todo_text">TODO</string>
 </resources>

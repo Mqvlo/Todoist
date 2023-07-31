@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_16"
+        android:autofillHints='"Task to do"'
         android:hint="@string/enter_todo_hint"
         android:inputType="textPersonName"
         android:padding="@dimen/dimen_16"
@@ -43,7 +44,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/todo_text"
         android:scaleX="0.4"
         android:scaleY="0.4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#FFB300"
+            android:background="#FFC107"
             android:text="@string/radio_med" />
 
         <RadioButton
@@ -154,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/holo_blue_light"
+            android:background="#8BC34B"
             android:text="@string/radio_low" />
     </RadioGroup>
 

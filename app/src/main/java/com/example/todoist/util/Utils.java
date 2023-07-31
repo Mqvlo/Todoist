@@ -28,9 +28,9 @@ public class Utils {
         if (task.getPriority() == Priority.HIGH){
             color = Color.argb(200,201,21,23);
         } else if (task.getPriority() == Priority.MEDIUM) {
-            color = Color.argb(200,155,179,0);
+            color = Color.argb(200,255,193,7);
         }else {
-            color = Color.argb(200,51,181,129);
+            color = Color.argb(200,139,195,74);
         }
         return color;
     }
