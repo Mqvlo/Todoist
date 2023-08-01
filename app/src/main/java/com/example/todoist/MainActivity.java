@@ -12,6 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
     private RecyclerView recyclerView;
@@ -53,9 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         sharedViewModel = new ViewModelProvider(this)
                 .get(SharedViewModel.class);
 
-        taskViewModel.getAllTasks().observe(this, tasks -> {
+        taskViewModel.getTasksIsDone(false).observe(this, tasks -> {
             recyclerViewAdapter = new RecyclerViewAdapter(tasks, this);
-            recyclerViewAdapter.getFilter().filter("notDone");
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
@@ -89,6 +90,20 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_task);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recyclerViewAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -98,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
 
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.search_task) {
+            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

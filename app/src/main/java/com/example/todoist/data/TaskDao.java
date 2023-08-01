@@ -30,4 +30,7 @@ public interface TaskDao {
 
     @Delete
     void delete(Task task);
+
+    @Query("SELECT * FROM task_table WHERE task_table.is_Done == :isDone")
+    LiveData<List<Task>> getTasksIsDone(boolean isDone);
 }

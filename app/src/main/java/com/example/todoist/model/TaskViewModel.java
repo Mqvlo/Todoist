@@ -25,4 +25,6 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<Task> get(long id){return repository.get(id);}
     public static void update(Task task){repository.update(task);}
     public static void delete(Task task){repository.delete(task);}
+    public LiveData<List<Task>> getTasksIsDone(boolean isDone){return repository.getTasksIsDone(isDone);}
+
 }

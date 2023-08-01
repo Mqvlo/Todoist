@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> implements Filterable {
-    private List<Task> taskList;
+    private final List<Task> taskList;
+    private List<Task> filteredTaskList;
     private final OnTodoClickListener todoClickListener;
-    private final List<Task> filteredTaskList;
 
     public RecyclerViewAdapter(List<Task> taskList, OnTodoClickListener onTodoClickListener) {
         this.taskList = taskList;
@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Task task = taskList.get(position);
+        Task task = filteredTaskList.get(position);
         String formatted = Utils.formatDate(task.getDueDate());
 
         ColorStateList colorStateList = new ColorStateList(new int[][]{
@@ -62,7 +62,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return taskList.size();
+        return (taskList != null)? filteredTaskList.size() : 0 ;
+//        return taskList.size();
     }
 
     @Override
@@ -70,27 +71,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
-                if (constraint == null){
-                    filterResults.values = filteredTaskList;
-                    filterResults.count = filteredTaskList.size();
+                if (constraint == null || constraint.length() == 0){
+                    filteredTaskList = taskList;
                 }else{
-                    List<Task> tasks = new ArrayList<>();
-                    for (Task task :filteredTaskList) {
-                        if(task.getIsDone() != (constraint == "notDone")){
-                            tasks.add(task);
+                    List<Task> tempList = new ArrayList<>();
+                    for (Task task :taskList) {
+                        if(task.getTask().toLowerCase().contains(constraint.toString().toLowerCase())){
+                            tempList.add(task);
                         }
                     }
-                    filterResults.values = tasks;
-                    filterResults.count = tasks.size();
+                    filteredTaskList = tempList;
                 }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredTaskList;
+                filterResults.count = filteredTaskList.size();
                 return filterResults;
             }
 
             @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                taskList = (List<Task>) results.values;
+                filteredTaskList = ((List<Task>) results.values);
                 notifyDataSetChanged();
             }
         };
