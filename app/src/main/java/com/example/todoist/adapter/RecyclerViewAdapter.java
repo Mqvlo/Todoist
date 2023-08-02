@@ -112,7 +112,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View view) {
-            Task currTask = taskList.get(getAdapterPosition());
+            Task currTask = filteredTaskList.get(getAdapterPosition());
             int id = view.getId();
             if (id == R.id.todo_row_layout){
                 onTodoClickListener.onTodoClick(currTask);
@@ -120,6 +120,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
     public Task getTaskAt(int position){
-        return taskList.get(position);
+        return filteredTaskList.get(position);
     }
 }

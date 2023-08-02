@@ -23,13 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     BottomSheetFragment bottomSheetFragment;
     private SharedViewModel sharedViewModel;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem menuItem = menu.findItem(R.id.search_task);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        MenuItem menuItem = menu.findItem(R.id.menu_search_task);
+        searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -111,10 +111,8 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_about) {
             return true;
-        } else if (id == R.id.search_task) {
-            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -124,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     public void onTodoClick(Task task) {
         sharedViewModel.selectItem(task);
         sharedViewModel.setIsEdit(true);
+        searchView.onActionViewCollapsed();
         showBottomSheetDialog();
     }
 }

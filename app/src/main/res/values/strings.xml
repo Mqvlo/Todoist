@@ -31,4 +31,5 @@
     <string name="no_info">Please fill the info</string>
     <string name="todo_text">TODO</string>
     <string name="search_text">Search</string>
+    <string name="get_done_tasks">Get done tasks</string>
 </resources>

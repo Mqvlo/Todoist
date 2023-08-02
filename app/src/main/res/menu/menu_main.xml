@@ -1,18 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.bawp.todoister.MainActivity">
+    tools:context="com.example.todoist.MainActivity">
     <item
-        android:id="@+id/search_task"
+        android:id="@+id/menu_search_task"
         android:icon="@android:drawable/ic_menu_search"
         android:iconTint="@color/white"
         android:orderInCategory="100"
         android:title="@string/search_text"
-        app:showAsAction="ifRoom"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_isDone"
+        android:icon="?android:attr/actionModeFindDrawable"
+        android:iconTint="@color/purple_200"
+        android:iconTintMode="multiply"
         android:orderInCategory="200"
+        android:title="@string/get_done_tasks"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_about"
+        android:orderInCategory="300"
         android:title="@string/action_settings"
         app:showAsAction="never" />
 </menu>
