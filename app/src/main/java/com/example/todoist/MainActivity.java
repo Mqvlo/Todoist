@@ -1,5 +1,6 @@
 package com.example.todoist;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.todoist.adapter.OnTodoClickListener;
@@ -111,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_about) {
+        if (id == R.id.menu_isDone) {
+            Intent intent = new Intent(this, DoneActivity.class);
+            startActivity(intent);
             return true;
         }
 
