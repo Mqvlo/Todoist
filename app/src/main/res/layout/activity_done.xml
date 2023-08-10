@@ -8,16 +8,10 @@
     tools:context=".DoneActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Todoist.AppBarOverlay">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_done"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/Theme.Todoist.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,4 +25,15 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_done"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:clickable="true"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="center"
+        app:navigationIcon="@drawable/ic_done_back"
+        app:popupTheme="@style/Theme.Todoist.PopupOverlay" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

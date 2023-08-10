@@ -1,9 +1,9 @@
 package com.example.todoist;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +25,11 @@ public class DoneActivity extends AppCompatActivity implements OnTodoClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_done);
+        Toolbar toolbar = findViewById(R.id.toolbar_done);
+        toolbar.setOnClickListener(v -> DoneActivity.super.finish());
 
         recyclerView = findViewById(R.id.recycler_view_done);
-        recyclerView.hasFixedSize();
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         TaskViewModel taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
@@ -42,16 +44,13 @@ public class DoneActivity extends AppCompatActivity implements OnTodoClickListen
 
     @Override
     public void onTodoClick(Task task) {
-        Snackbar.make(findViewById(android.R.id.content),"Sure?", Snackbar.LENGTH_LONG)
-                .setAction("Ok", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        task.setDateCreated(Calendar.getInstance().getTime());
-                        task.setIsDone(false);
-                        TaskViewModel.update(task);
-                        if (recyclerViewAdapter.getItemCount() == 0)
-                            DoneActivity.super.finish();
-                    }
+        Snackbar.make(findViewById(android.R.id.content),"About to set the task as UnDone, are you sure?", Snackbar.LENGTH_LONG)
+                .setAction("Ok", v -> {
+                    task.setDateCreated(Calendar.getInstance().getTime());
+                    task.setIsDone(false);
+                    TaskViewModel.update(task);
+                    if (recyclerViewAdapter.getItemCount() <= 1)
+                        DoneActivity.super.finish();
                 })
                 .show();
     }

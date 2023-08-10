@@ -35,5 +35,5 @@ public class DoisterRepository {
         TaskRoomDatabase.databaseWriterExecutor.execute(()-> taskDao.delete(task));
     }
 
-    public LiveData<List<Task>> getTasksIsDone(boolean isDOne){ return taskDao.getTasksIsDone(isDOne);}
+    public LiveData<List<Task>> getTasksIsDone(boolean isDone){ return taskDao.getTasksIsDone(isDone);}
 }
